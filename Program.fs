@@ -1,12 +1,12 @@
-﻿module CoinFlipAnalysis =
+module CoinFlipAnalysis =
     let containsRunInCenter (graphemes: char seq): bool  =
         let first: char = Seq.head(graphemes)
         let last : char= graphemes |> Seq.rev |> Seq.head
         let center: char seq = graphemes |> Seq.tail |> Seq.rev |> Seq.tail
 
         (not (center |> Seq.exists(fun (elm: char) -> elm = first))) &&
-            (not (center |> Seq.exists(fun (elm: char) -> elm = last))) &&
-            ((center |> Seq.distinct |> Seq.length) = 1)
+        (not (center |> Seq.exists(fun (elm: char) -> elm = last))) &&
+        ((center |> Seq.distinct |> Seq.length) = 1)
 
     let countRunsOfLength (graphemes: string) (len: int): int =
         (0, ["X"; "X"]  |> String.concat (graphemes)
@@ -49,13 +49,13 @@
 
 [<EntryPoint>]
 let main args =
-    let argAsInt = args[0] |> int
+    let len = args[0] |> int
     let gamma = args[1] |> float
-    printfn "generating length: %d" argAsInt
-    let randomFlips = CoinFlipAnalysis.generateRandomFlips argAsInt
+    printfn "generating length: %d" len
+    let randomFlips = CoinFlipAnalysis.generateRandomFlips len
     printfn "random: %s" randomFlips
     CoinFlipAnalysis.countAllRuns randomFlips
-    let semiRandomFlips = CoinFlipAnalysis.generateSemiRandomFlips argAsInt gamma
+    let semiRandomFlips = CoinFlipAnalysis.generateSemiRandomFlips len gamma
     printfn "semi-random: %s" semiRandomFlips
     CoinFlipAnalysis.countAllRuns semiRandomFlips
     0
