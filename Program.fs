@@ -9,8 +9,8 @@ module CoinFlipAnalysis =
         ((center |> Seq.distinct |> Seq.length) = 1)
 
     let countRunsOfLength (graphemes: string) (len: int): int =
-        (0, ["X"; "X"]  |> String.concat (graphemes)
-                        |> Seq.windowed (len + 2))
+        (0, ["X"; "X"] |> String.concat (graphemes)
+            |> Seq.windowed (len + 2))
         ||> Seq.fold (fun acc x ->
             if containsRunInCenter(x) then
                 acc + 1
