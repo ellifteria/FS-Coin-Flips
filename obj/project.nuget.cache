@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "j45XUaHehBkdOqthCZ6hlatmZO8f/Yzsv2Kewchvmht4JS4AAGTDNsFvyR6FOIjxEvcvsw39FCdDU04HhxzYeg==",
+  "success": true,
+  "projectFilePath": "/Users/elliberes/nu-cs/CS-474/hw1-ellifteria/fs-coin-flips/CoinFlipAnalysis.fsproj",
+  "expectedPackageFiles": [
+    "/Users/elliberes/.nuget/packages/fsharp.core/7.0.400/fsharp.core.7.0.400.nupkg.sha512"
+  ],
+  "logs": []
+}
