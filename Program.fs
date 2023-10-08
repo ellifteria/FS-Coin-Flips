@@ -76,6 +76,7 @@ let main args =
     let hypotheses = seq { (args[2] |> float, args[3] |> float); (args[4] |> float, args[5] |> float)}
     let aH = args[6] |> float
     let aT = args[7] |> float
+    let givenFlips = args[8]
 
     printfn "Generating flips of length: %d" len
 
@@ -108,5 +109,13 @@ let main args =
     printfn "MLE %f" (Estimators.MLE len kSemiRandom)
     printfn "continuous MAP %f" (Estimators.continuousMAP len kSemiRandom aH aT)
     printfn "discrete MAP %f" (Estimators.discreteMAP len kSemiRandom hypotheses)
+
+    printfn "\nGiven flips"
+    printfn "Run counts:"
+    let kGivenRandom = CoinFlipAnalysis.countAllRuns givenFlips
+    printf "Statistics:"
+    printfn "MLE %f" (Estimators.MLE len kGivenRandom)
+    printfn "continuous MAP %f" (Estimators.continuousMAP len kGivenRandom aH aT)
+    printfn "discrete MAP %f" (Estimators.discreteMAP len kGivenRandom hypotheses)
 
     0
