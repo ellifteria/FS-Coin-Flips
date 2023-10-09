@@ -1,7 +1,7 @@
 module CoinFlipAnalysis =
     let containsRunInCenter (graphemes: char seq): bool  =
         let first: char = Seq.head(graphemes)
-        let last: char= graphemes |> Seq.rev |> Seq.head
+        let last: char = graphemes |> Seq.rev |> Seq.head
         let center: char seq = graphemes |> Seq.tail |> Seq.rev |> Seq.tail
 
         (not (center |> Seq.exists(fun (elm: char) -> elm = first))) &&
@@ -53,6 +53,9 @@ module CoinFlipAnalysis =
         |> String.concat ""
 
 module Estimators =
+    let likelihood (N: int) (K: int) (h: float): float =
+        (h ** (K |> float)) * ((1.0 - h) ** ((N - K) |> float))
+
     let MLE (N: int) (K: int): float =
         (K |> float) / (N |> float)
 
@@ -86,9 +89,9 @@ let main args =
     printfn "Run counts:"
     let kRandom = CoinFlipAnalysis.countAllRuns randomFlips
     printf "Statistics:"
-    printfn "MLE %f" (Estimators.MLE len kRandom)
-    printfn "continuous MAP %f" (Estimators.continuousMAP len kRandom aH aT)
-    printfn "discrete MAP %f" (Estimators.discreteMAP len kRandom hypotheses)
+    printfn "MLE %f" (Estimators.MLE (len - 1) kRandom)
+    printfn "continuous MAP %f" (Estimators.continuousMAP (len - 1) kRandom aH aT)
+    printfn "discrete MAP %f" (Estimators.discreteMAP (len - 1) kRandom hypotheses)
 
     printfn "\nGenerating semi-random flips with gamma = %0.2f:" 0.5
     let knownSemiRandomFlips = CoinFlipAnalysis.generateSemiRandomFlips len 0.5
@@ -96,9 +99,9 @@ let main args =
     printfn "Run counts:"
     let kFixedSemiRandom = CoinFlipAnalysis.countAllRuns knownSemiRandomFlips
     printf "Statistics:"
-    printfn "MLE %f" (Estimators.MLE len kFixedSemiRandom)
-    printfn "continuous MAP %f" (Estimators.continuousMAP len kFixedSemiRandom aH aT)
-    printfn "discrete MAP %f" (Estimators.discreteMAP len kFixedSemiRandom hypotheses)
+    printfn "MLE %f" (Estimators.MLE (len - 1) kFixedSemiRandom)
+    printfn "continuous MAP %f" (Estimators.continuousMAP (len - 1) kFixedSemiRandom aH aT)
+    printfn "discrete MAP %f" (Estimators.discreteMAP (len - 1) kFixedSemiRandom hypotheses)
 
     printfn "\nGenerating semi-random flips with gamma = %0.2f:" gamma
     let semiRandomFlips = CoinFlipAnalysis.generateSemiRandomFlips len gamma
@@ -106,16 +109,18 @@ let main args =
     printfn "Run counts:"
     let kSemiRandom = CoinFlipAnalysis.countAllRuns semiRandomFlips
     printf "Statistics:"
-    printfn "MLE %f" (Estimators.MLE len kSemiRandom)
-    printfn "continuous MAP %f" (Estimators.continuousMAP len kSemiRandom aH aT)
-    printfn "discrete MAP %f" (Estimators.discreteMAP len kSemiRandom hypotheses)
+    printfn "MLE %f" (Estimators.MLE (len - 1) kSemiRandom)
+    printfn "continuous MAP %f" (Estimators.continuousMAP (len - 1) kSemiRandom aH aT)
+    printfn "discrete MAP %f" (Estimators.discreteMAP (len - 1) kSemiRandom hypotheses)
 
     printfn "\nGiven flips"
     printfn "Run counts:"
     let kGivenRandom = CoinFlipAnalysis.countAllRuns givenFlips
     printf "Statistics:"
-    printfn "MLE %f" (Estimators.MLE len kGivenRandom)
-    printfn "continuous MAP %f" (Estimators.continuousMAP len kGivenRandom aH aT)
-    printfn "discrete MAP %f" (Estimators.discreteMAP len kGivenRandom hypotheses)
+    printfn "MLE %f" (Estimators.MLE (len - 1) kGivenRandom)
+    printfn "continuous MAP %f" (Estimators.continuousMAP (len - 1) kGivenRandom aH aT)
+    printfn "discrete MAP %f" (Estimators.discreteMAP (len - 1) kGivenRandom hypotheses)
+    printfn "likelihood of gamma=0.45 %e" (Estimators.likelihood (len - 1) kGivenRandom 0.45)
+    printfn "likelihood of gamma=0.50 %e" (Estimators.likelihood (len - 1) kGivenRandom 0.5)
 
     0
